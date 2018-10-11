@@ -30,7 +30,35 @@ public class UserController {
 
 
 
-
+    @RequestMapping("userLogin")
+    @ResponseBody
+    public HashMap<String, Object> userLogini(UserBean userBean, String imgCode, HttpServletRequest request){
+        HashMap<String, Object> result = new HashMap<String, Object>();
+        HttpSession session = request.getSession();
+        String sessionCode = session.getAttribute("RANDOMVALIDATECODEKEY").toString();
+        if (!sessionCode.equals(imgCode)) {
+            result.put("code", 1);
+            result.put("msg", "验证码错误");
+            return result;
+        }
+        UserBean userLoginInfo = userService.queryUserLoginInfo(userBean);
+        if (userLoginInfo == null) {
+            result.put("code", 2);
+            result.put("msg", "账号不存在");
+            return result;
+        }
+        String password = userBean.getPassword();
+        String md516 = Md5Util.getMd516(password);
+        if (!userLoginInfo.getPassword().equals(md516)) {
+            result.put("code", 3);
+            result.put("msg", "密码错误");
+            return result;
+        }
+        session.setAttribute(session.getId(), userLoginInfo);
+        result.put("code", 0);
+        result.put("msg", "登录成功");
+        return result;
+    }
 
 
 
