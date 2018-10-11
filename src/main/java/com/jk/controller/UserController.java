@@ -37,6 +37,7 @@ public class UserController {
         HttpSession session = request.getSession();
         String sessionCode = session.getAttribute("RANDOMVALIDATECODEKEY").toString();
         String sessionCode3s = session.getAttribute("RANDOMVALIDATECODEKEY").toString();
+        String sessionCode1 = session.getAttribute("RANDOMVALIDATECODEKEY").toString();
         if (!sessionCode.equals(imgCode)) {
             result.put("code", 1);
             result.put("msg", "验证码错误");
