@@ -36,6 +36,7 @@ public class UserController {
         HashMap<String, Object> result = new HashMap<String, Object>();
         HttpSession session = request.getSession();
         String sessionCode = session.getAttribute("RANDOMVALIDATECODEKEY").toString();
+        String sessionCode1 = session.getAttribute("RANDOMVALIDATECODEKEY").toString();
         if (!sessionCode.equals(imgCode)) {
             result.put("code", 1);
             result.put("msg", "验证码错误");
